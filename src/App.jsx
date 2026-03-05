@@ -21,15 +21,15 @@ const GENRES = [
 
 const SHOWS = [
   { id:"bridgerton",    label:"Bridgerton",      emoji:"🌹", accent:"#e8c07d", bg:"#110800",  tag:"Netflix",    art:["🌹","💌","👑","🎭","💐"], poster:"https://upload.wikimedia.org/wikipedia/en/3/3d/Bridgerton_Title_Card.png" },
-  { id:"laworder",      label:"Law & Order",      emoji:"⚖️",  accent:"#5b9cf6", bg:"#04080f",  tag:"NBC",        art:["⚖️","🔨","🚔","📋","🏛️"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Law_%26_Order_%28logo%29.svg/500px-Law_%26_Order_%28logo%29.svg.png" },
+  { id:"laworder",      label:"Law & Order",      emoji:"⚖️",  accent:"#5b9cf6", bg:"#04080f",  tag:"NBC",        art:["⚖️","🔨","🚔","📋","🏛️"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Law_%26_Order_%28logo%29.svg/500px-Law_%26_Order_%28logo%29.svg.png", posterBg:"#f0f0f0" },
   { id:"loveisblind",   label:"Love is Blind",    emoji:"💍", accent:"#ff8fa3", bg:"#110008",  tag:"Netflix",    art:["💍","💌","🥂","💒","🌸"], poster:"https://upload.wikimedia.org/wikipedia/en/b/b0/Love_is_Blind_title_card.png" },
   { id:"scrubs",        label:"Scrubs",           emoji:"🩺", accent:"#2dd4bf", bg:"#030f0d",  tag:"ABC",        art:["🩺","💊","🏥","😂","🦅"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Scrubs_%28TV_series%29_logo.svg/500px-Scrubs_%28TV_series%29_logo.svg.png" },
   { id:"heatedrivalry", label:"Heated Rivalry",   emoji:"🏒", accent:"#fb923c", bg:"#0f0500",  tag:"Peacock",    art:["🏒","🥅","🔥","🏆","⛸️"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Logo_Heated_Rivalry.svg/500px-Logo_Heated_Rivalry.svg.png" },
   { id:"thepitt",       label:"The Pitt",         emoji:"🚨", accent:"#f87171", bg:"#0f0000",  tag:"Max",        art:["🚨","🩹","💉","🏃","⏱️"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/The_Pitt_Max_series_logo.svg/500px-The_Pitt_Max_series_logo.svg.png" },
   { id:"tedlasso",      label:"Ted Lasso",        emoji:"⚽", accent:"#86efac", bg:"#030f05",  tag:"Apple TV+",  art:["⚽","🍪","🎯","📣","🏅"], poster:"https://upload.wikimedia.org/wikipedia/en/7/73/Tedlassotitlecard.jpg" },
-  { id:"greys",         label:"Grey's Anatomy",   emoji:"🩻", accent:"#38bdf8", bg:"#02070f",  tag:"ABC",        art:["🩻","💙","🏥","💔","🩺"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grey%27s_Anatomy_Logo.svg/500px-Grey%27s_Anatomy_Logo.svg.png" },
+  { id:"greys",         label:"Grey's Anatomy",   emoji:"🩻", accent:"#38bdf8", bg:"#02070f",  tag:"ABC",        art:["🩻","💙","🏥","💔","🩺"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Grey%27s_Anatomy_Logo.svg/500px-Grey%27s_Anatomy_Logo.svg.png", posterBg:"#e8f4f8" },
   { id:"bluey",         label:"Bluey",            emoji:"🐶", accent:"#60a5fa", bg:"#030a1a",  tag:"ABC Kids",   art:["🐶","🎨","🏡","👨‍👩‍👧‍👦","🎪"], poster:"https://upload.wikimedia.org/wikipedia/en/4/48/Bluey_%282018_TV_series%29_title_card.jpg" },
-  { id:"industry",      label:"Industry",         emoji:"📈", accent:"#a3e635", bg:"#040800",  tag:"HBO",        art:["📈","💊","🏙️","💸","📱"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Industry-s2-logo-1200x300.png/500px-Industry-s2-logo-1200x300.png" },
+  { id:"industry",      label:"Industry",         emoji:"📈", accent:"#a3e635", bg:"#040800",  tag:"HBO",        art:["📈","💊","🏙️","💸","📱"], poster:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Industry-s2-logo-1200x300.png/500px-Industry-s2-logo-1200x300.png", posterBg:"#f0f0f0" },
 ];
 
 const TROPES = {
@@ -117,6 +117,7 @@ export default function StreamingBingo() {
   const [tooltip, setTooltip]         = useState(null);
   const [showReveal, setShowReveal]   = useState(false);
   const saveRef = useRef(null);
+  const modeRef = useRef(null);
 
   const windowW = useWindowWidth();
   const entry = ALL.find(x => x.id === gid);
@@ -213,7 +214,7 @@ export default function StreamingBingo() {
       {tab === "genres" && (
         <div style={{ display:"flex", flexWrap:"wrap", gap:"8px", justifyContent:"center", maxWidth:"700px", zIndex:1, position:"relative", marginBottom:"28px" }}>
           {GENRES.map(g => (
-            <button key={g.id} onClick={() => setGid(g.id)} style={{ padding:"8px 16px", borderRadius:"999px", cursor:"pointer", fontFamily:F, fontSize:"13px", fontWeight:gid===g.id ? "600" : "400", border:`1.5px solid ${gid===g.id ? g.accent : "#2a2a2a"}`, background:gid===g.id ? `${g.accent}1a` : "#0e0e0e", color:gid===g.id ? g.accent : "#bbb", transition:"all 0.2s" }}>
+            <button key={g.id} onClick={() => { setGid(g.id); setTimeout(() => modeRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 50); }} style={{ padding:"8px 16px", borderRadius:"999px", cursor:"pointer", fontFamily:F, fontSize:"13px", fontWeight:gid===g.id ? "600" : "400", border:`1.5px solid ${gid===g.id ? g.accent : "#2a2a2a"}`, background:gid===g.id ? `${g.accent}1a` : "#0e0e0e", color:gid===g.id ? g.accent : "#bbb", transition:"all 0.2s" }}>
               {g.emoji} {g.label}
             </button>
           ))}
@@ -225,7 +226,7 @@ export default function StreamingBingo() {
         <>
         <div style={{ display:"grid", gridTemplateColumns:"repeat(auto-fill, minmax(130px, 1fr))", gap:"10px", maxWidth:"700px", width:"100%", zIndex:1, position:"relative", marginBottom:"12px" }}>
           {SHOWS.map(g => (
-            <button key={g.id} onClick={() => setGid(g.id)} style={{ borderRadius:"12px", border:`2px solid ${gid===g.id ? g.accent : "#1e1e1e"}`, background:gid===g.id ? `${g.accent}15` : "#0e0e0e", cursor:"pointer", overflow:"hidden", transition:"all 0.2s", padding:0, textAlign:"left" }}>
+            <button key={g.id} onClick={() => { setGid(g.id); setTimeout(() => modeRef.current?.scrollIntoView({ behavior:"smooth", block:"start" }), 50); }} style={{ borderRadius:"12px", border:`2px solid ${gid===g.id ? g.accent : "#1e1e1e"}`, background:gid===g.id ? `${g.accent}15` : "#0e0e0e", cursor:"pointer", overflow:"hidden", transition:"all 0.2s", padding:0, textAlign:"left" }}>
               {/* Poster or emoji fallback */}
               <ShowPoster show={g} selected={gid===g.id} />
               <div style={{ padding:"8px 10px" }}>
@@ -235,14 +236,11 @@ export default function StreamingBingo() {
             </button>
           ))}
         </div>
-        <p style={{ fontSize:"10px", color:"#999", textAlign:"center", maxWidth:"500px", lineHeight:1.5, zIndex:1, position:"relative", marginBottom:"16px" }}>
-          Images provenant de <a href="https://en.wikipedia.org" target="_blank" rel="noopener noreferrer" style={{ color:"#aaa" }}>Wikipédia</a>. Tous droits sur les titres et visuels appartiennent à leurs détenteurs respectifs. Ce jeu n'a aucune affiliation avec les productions mentionnées.
-        </p>
         </>
       )}
 
       {/* Mode selector */}
-      <div style={{ zIndex:1, position:"relative", marginBottom:"24px", textAlign:"center" }}>
+      <div ref={modeRef} style={{ zIndex:1, position:"relative", marginBottom:"24px", textAlign:"center", scrollMarginTop:"24px" }}>
         <div style={{ fontSize:"11px", color:"#aaa", letterSpacing:"1px", textTransform:"uppercase", marginBottom:"10px" }}>Mode de jeu</div>
         <div style={{ display:"flex", gap:"8px", justifyContent:"center" }}>
           {[["live","⚡ En direct","Même pièce ou call - pas besoin de noter"],["async","📅 Asynchrone","Chacun regarde de son côté - horodatage requis"]].map(([m, label, desc]) => (
@@ -259,6 +257,10 @@ export default function StreamingBingo() {
         <button style={btn("#888")} onClick={() => setScreen("join")}>Rejoindre avec un code</button>
       </div>
       {error && <p style={{ color:"#ff6b6b", fontSize:"13px", marginTop:"10px", zIndex:1, position:"relative" }}>{error}</p>}
+
+      <p style={{ fontSize:"11px", color:"#555", textAlign:"center", maxWidth:"500px", lineHeight:1.6, zIndex:1, position:"relative", marginTop:"48px", padding:"0 16px" }}>
+        Images provenant de <a href="https://en.wikipedia.org" target="_blank" rel="noopener noreferrer" style={{ color:"#888" }}>Wikipédia</a>. Tous droits sur les titres et visuels appartiennent à leurs détenteurs respectifs. Ce jeu n'a aucune affiliation avec les productions mentionnées.
+      </p>
     </div>
   );
 
@@ -557,19 +559,18 @@ function ShowPoster({ show, selected }) {
   const borderColor = selected ? show.accent + "44" : "#1a1a1a";
   if (show.poster && !imgFailed) {
     return (
-      <div style={{ height:"80px", overflow:"hidden", borderBottom:`1px solid ${borderColor}`, position:"relative", background:"#111" }}>
+      <div style={{ height:"90px", overflow:"hidden", borderBottom:`1px solid ${borderColor}`, position:"relative", background:show.posterBg || show.bg, display:"flex", alignItems:"center", justifyContent:"center" }}>
         <img
           src={show.poster}
           alt={show.label}
           onError={() => setImgFailed(true)}
-          style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition:"center top", display:"block" }}
+          style={{ width:"100%", height:"100%", objectFit:"contain", objectPosition:"center center", display:"block", padding:"8px" }}
         />
-        <div style={{ position:"absolute", inset:0, background:`linear-gradient(to bottom, transparent 50%, ${show.bg}cc)` }} />
       </div>
     );
   }
   return (
-    <div style={{ background:`linear-gradient(135deg, ${show.accent}30, ${show.accent}08)`, padding:"14px 10px 10px", textAlign:"center", borderBottom:`1px solid ${borderColor}`, height:"80px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
+    <div style={{ background:`linear-gradient(135deg, ${show.accent}30, ${show.accent}08)`, textAlign:"center", borderBottom:`1px solid ${borderColor}`, height:"90px", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center" }}>
       <div style={{ fontSize:"28px", marginBottom:"4px" }}>{show.emoji}</div>
       <div style={{ display:"flex", justifyContent:"center", gap:"3px", flexWrap:"wrap" }}>
         {show.art.slice(1).map((e,i) => <span key={i} style={{ fontSize:"11px", opacity:0.5 }}>{e}</span>)}
